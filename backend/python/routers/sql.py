@@ -5,11 +5,12 @@ from datetime import datetime
 
 from ..database import get_db
 from ..services.sql_service import SqlService
-from ..models import SqlType
+from ..services.sqlset_service import SqlSetService
+from ..models import SqlType, Feature
 from ..schemas import (
     SqlSet, SqlSetCreate, SqlSetUpdate,
     SqlStatement, SqlStatementCreate, SqlStatementUpdate,
-    SqlParseResult, PageResponse
+    SqlParseResult, PageResponse, Feature as FeatureSchema
 )
 
 router = APIRouter(prefix="/api/v1/sql", tags=["sql"])
@@ -21,10 +22,10 @@ async def create_sql_set(
     db: Session = Depends(get_db)
 ):
     """Create a new SQL set."""
-    service = SqlService(db)
+    service = SqlSetService(db)
     return await service.create_sql_set(sql_set)
 
-@router.get("/sets", response_model=List[SqlSet])
+@router.get("/sets", response_model=PageResponse[SqlSet])
 async def get_sql_sets(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100),
@@ -33,12 +34,20 @@ async def get_sql_sets(
     db: Session = Depends(get_db)
 ):
     """Get SQL sets with filtering."""
-    service = SqlService(db)
-    return await service.get_sql_sets(
+    service = SqlSetService(db)
+    sql_sets, total_count = await service.get_sql_sets(
         skip=skip,
         limit=limit,
         search=search,
         is_active=is_active
+    )
+    
+    return PageResponse(
+        items=sql_sets,
+        total=total_count,
+        page=skip // limit + 1 if limit > 0 else 1,
+        size=limit,
+        pages=(total_count + limit - 1) // limit if limit > 0 else 1
     )
 
 @router.get("/sets/{sql_set_id}", response_model=SqlSet)
@@ -47,7 +56,7 @@ async def get_sql_set(
     db: Session = Depends(get_db)
 ):
     """Get a specific SQL set by ID."""
-    service = SqlService(db)
+    service = SqlSetService(db)
     sql_set = await service.get_sql_set(sql_set_id)
     if not sql_set:
         raise HTTPException(status_code=404, detail="SQL set not found")
@@ -60,7 +69,7 @@ async def update_sql_set(
     db: Session = Depends(get_db)
 ):
     """Update a specific SQL set."""
-    service = SqlService(db)
+    service = SqlSetService(db)
     updated_sql_set = await service.update_sql_set(sql_set_id, sql_set)
     if not updated_sql_set:
         raise HTTPException(status_code=404, detail="SQL set not found")
@@ -72,10 +81,50 @@ async def delete_sql_set(
     db: Session = Depends(get_db)
 ):
     """Delete a SQL set."""
-    service = SqlService(db)
+    service = SqlSetService(db)
     if not await service.delete_sql_set(sql_set_id):
         raise HTTPException(status_code=404, detail="SQL set not found")
     return {"message": "SQL set deleted successfully"}
+
+@router.get("/sets/{sql_set_id}/features", response_model=PageResponse[FeatureSchema])
+async def get_sql_set_features(
+    sql_set_id: int,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=100),
+    search: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
+    """Get features associated with a specific SQL set."""
+    service = SqlSetService(db)
+    
+    # Make sure SQL set exists
+    sql_set = await service.get_sql_set(sql_set_id)
+    if not sql_set:
+        raise HTTPException(status_code=404, detail="SQL set not found")
+    
+    features, total_count = await service.get_sql_set_features(
+        sql_set_id=sql_set_id,
+        skip=skip,
+        limit=limit,
+        search=search
+    )
+    
+    return PageResponse(
+        items=features,
+        total=total_count,
+        page=skip // limit + 1 if limit > 0 else 1,
+        size=limit,
+        pages=(total_count + limit - 1) // limit if limit > 0 else 1
+    )
+
+@router.get("/sets/{sql_set_id}/stats")
+async def get_sql_set_stats(
+    sql_set_id: int,
+    db: Session = Depends(get_db)
+):
+    """Get statistics for a specific SQL set."""
+    service = SqlSetService(db)
+    return await service.get_sql_set_stats(sql_set_id)
 
 # SQL Statement endpoints
 @router.post("/statements", response_model=SqlStatement)
