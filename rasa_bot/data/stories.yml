@@ -1,0 +1,81 @@
+version: "3.1"
+
+stories:
+- story: greeting
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- story: goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: thanks
+  steps:
+  - intent: thanks
+  - action: utter_thanks
+
+- story: user requests risk analysis with ID
+  steps:
+  - intent: request_risk_analysis
+    entities:
+    - user_id: "12345"
+  - slot_was_set:
+      user_id: "12345"
+  - action: action_analyze_user_risk
+
+- story: user requests risk analysis without ID
+  steps:
+  - intent: request_risk_analysis
+  - action: utter_ask_user_id
+  - intent: request_risk_analysis
+    entities:
+    - user_id: "12345"
+  - slot_was_set:
+      user_id: "12345"
+  - action: action_analyze_user_risk
+
+- story: user requests model performance
+  steps:
+  - intent: get_model_performance
+  - action: action_get_model_performance
+
+- story: user asks about feature importance
+  steps:
+  - intent: get_feature_importance
+  - action: action_get_feature_importance
+
+- story: user requests risk details with ID
+  steps:
+  - intent: get_user_risk_details
+    entities:
+    - user_id: "67890"
+  - slot_was_set:
+      user_id: "67890"
+  - action: action_analyze_user_risk
+
+- story: user asks to explain risk score
+  steps:
+  - intent: explain_risk_score
+  - action: action_explain_risk_score
+
+- story: user asks to adjust model parameters
+  steps:
+  - intent: adjust_model_parameters
+  - action: action_adjust_model_parameters
+
+- story: user asks to explain model decision
+  steps:
+  - intent: explain_model_decision
+  - action: action_explain_model_decision
+
+- story: user asks for approval rate
+  steps:
+  - intent: get_approval_rate
+  - action: action_get_approval_rate
+
+- story: user asks if bot is human
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot 

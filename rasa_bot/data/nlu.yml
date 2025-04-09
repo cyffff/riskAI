@@ -1,0 +1,233 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - hey there
+    - greetings
+    - hi there
+    - howdy
+
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you around
+    - see you later
+    - see ya
+    - bye bye
+    - have a nice day
+    - until next time
+    - talk to you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - sure
+    - ok
+    - okay
+    - makes sense
+    - that's right
+    - right
+    - sounds good
+    - sounds right
+    - I agree
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - no thanks
+    - negative
+    - incorrect
+    - that's wrong
+    - wrong
+    - not what I want
+
+- intent: thanks
+  examples: |
+    - thanks
+    - thank you
+    - thanks a lot
+    - thank you very much
+    - I appreciate it
+    - thanks for your help
+    - that was helpful
+    - you've been a great help
+    - that's helpful
+    - appreciate your assistance
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - who are you?
+    - what are you?
+    - are you real?
+    - are you an AI?
+    - what's your name?
+
+- intent: request_risk_analysis
+  examples: |
+    - analyze risk for user [12345](user_id)
+    - I need a risk analysis for [67890](user_id)
+    - perform risk assessment for customer [AB123](user_id)
+    - run a risk analysis for user ID [XYZ789](user_id)
+    - check the risk for user [U-12345](user_id)
+    - what's the risk level for [CUS-789](user_id)?
+    - analyze user [45678](user_id)'s risk profile
+    - give me a risk report for user [ABC987](user_id)
+    - evaluate risk for customer [654321](user_id)
+    - can you analyze risk for [USER98765](user_id)?
+    - analyze risk for user [12345](user_id) over the [last 90 days](date_range)
+    - what is user [67890](user_id)'s risk for the [past quarter](date_range)?
+    - show me risk analysis for [AB123](user_id) during [January](date_range)
+    - risk assessment for [XYZ789](user_id) for [Q1 2023](date_range)
+    - I need a risk profile for [U-12345](user_id) for [this month](date_range)
+
+- intent: get_model_performance
+  examples: |
+    - how is our model performing?
+    - show model performance
+    - what's the current model accuracy?
+    - give me the model metrics
+    - how good is our risk model?
+    - model performance report
+    - show me the performance stats
+    - what's our model's AUC?
+    - how accurate is our risk prediction?
+    - current model performance
+    - show performance of the risk model
+    - model evaluation results
+    - how well is the model predicting defaults?
+    - give me the model's performance metrics
+    - what's the model's F1 score?
+    - performance report for [last month](date_range)
+    - model metrics for [Q2](date_range)
+    - how did our model perform in [2023](date_range)?
+    - performance statistics for the [past week](date_range)
+
+- intent: adjust_model_parameters
+  examples: |
+    - change the model cutoff
+    - adjust the risk threshold
+    - modify model parameters
+    - update the cutoff value
+    - change model sensitivity
+    - increase the risk threshold
+    - I want to modify the cutoff
+    - set cutoff to [0.7](cutoff_value)
+    - change threshold to [0.65](cutoff_value)
+    - update cutoff to [0.8](cutoff_value)
+    - can we set the risk threshold to [0.75](cutoff_value)?
+    - adjust the [cutoff](model_parameter) parameter
+    - modify the [threshold](model_parameter)
+    - update the [sensitivity](model_parameter)
+    - change [weights](model_parameter) for the model
+    - adjust [beta](model_parameter) value
+
+- intent: explain_risk_score
+  examples: |
+    - why is this user high risk?
+    - explain the risk score
+    - how is risk score calculated?
+    - what factors affect the risk score?
+    - why did user [12345](user_id) get a high risk score?
+    - explain risk factors for [67890](user_id)
+    - what influenced the [high](risk_level) risk classification?
+    - why is this customer considered [medium](risk_level) risk?
+    - explain the [low](risk_level) risk rating
+    - what contributed to user [AB123](user_id)'s risk score?
+    - break down the risk score for [XYZ789](user_id)
+    - explain risk calculation methodology
+    - what determines risk level?
+    - how do you decide risk categories?
+    - factors behind risk classification
+
+- intent: get_user_risk_details
+  examples: |
+    - show me details for user [12345](user_id)
+    - what's the risk profile for [67890](user_id)?
+    - give me user [AB123](user_id)'s risk details
+    - details about [XYZ789](user_id)'s risk
+    - pull up risk information for [U-12345](user_id)
+    - show risk data for customer [654321](user_id)
+    - what do we know about [USER98765](user_id)'s risk?
+    - can I see risk details for [CUS-789](user_id)?
+    - display risk report for user [ABC987](user_id)
+    - tell me about [45678](user_id)'s risk factors
+    - get risk details for user [12345](user_id) for the [last quarter](date_range)
+    - show risk data of [67890](user_id) from [January](date_range)
+    - [U-12345](user_id)'s risk profile for [2023](date_range)
+    - [XYZ789](user_id)'s risk information for [last month](date_range)
+
+- intent: get_feature_importance
+  examples: |
+    - which features are most important?
+    - show feature importance
+    - what are the top risk indicators?
+    - most significant risk factors
+    - which features affect risk the most?
+    - importance of risk factors
+    - show me the feature weights
+    - what's the importance of [payment_history](feature_name)?
+    - how important is [credit_utilization](feature_name)?
+    - what's the weight of [transaction_frequency](feature_name)?
+    - how much does [debt_ratio](feature_name) affect risk?
+    - significance of [late_payments](feature_name)
+    - feature importance ranking
+    - what features should we focus on?
+    - key risk determinants
+
+- intent: explain_model_decision
+  examples: |
+    - why did the model approve this user?
+    - explain why user [12345](user_id) was declined
+    - why did we reject [67890](user_id)?
+    - explain the approval for [AB123](user_id)
+    - why did the model classify [XYZ789](user_id) as high risk?
+    - explain decision for [USER98765](user_id)
+    - rationale behind [CUS-789](user_id)'s rejection
+    - reason for [45678](user_id)'s approval
+    - explain model decision for this case
+    - why was this application declined?
+    - what led to this approval decision?
+    - explain the reasoning behind this risk classification
+    - what factors led to this decision?
+    - model decision explanation
+
+- intent: get_approval_rate
+  examples: |
+    - what's our approval rate?
+    - show approval statistics
+    - what percentage of applications are we approving?
+    - current approval rate
+    - show me approval vs. rejection stats
+    - what's the approval percentage?
+    - how many applications are being approved?
+    - give me approval trend
+    - approval rate for [high](risk_level) risk customers
+    - what's the approval percentage for [medium](risk_level) risk?
+    - approval stats for [low](risk_level) risk users
+    - approval rate for [last month](date_range)
+    - what was our approval percentage in [Q1](date_range)?
+    - show approval trend for [2023](date_range)
+    - approval statistics for the [past week](date_range) 

@@ -1,0 +1,99 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - thanks
+  - bot_challenge
+  - request_risk_analysis
+  - get_model_performance
+  - adjust_model_parameters
+  - explain_risk_score
+  - get_user_risk_details
+  - get_feature_importance
+  - explain_model_decision
+  - get_approval_rate
+
+entities:
+  - user_id
+  - date_range
+  - risk_level
+  - feature_name
+  - model_parameter
+  - cutoff_value
+
+slots:
+  user_id:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: user_id
+  date_range:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: date_range
+  risk_level:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: risk_level
+  feature_name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: feature_name
+
+responses:
+  utter_greet:
+    - text: "Hello! I'm your Credit Risk AI Assistant. How can I help you today?"
+    - text: "Hi there! I'm here to help with credit risk analysis. What would you like to know?"
+
+  utter_goodbye:
+    - text: "Goodbye! Feel free to ask me for help with credit risk analysis anytime."
+    - text: "See you later! I'll be here when you need risk analysis assistance."
+
+  utter_thanks:
+    - text: "You're welcome! Is there anything else I can help with regarding credit risk?"
+    - text: "Happy to help! Let me know if you need any other risk analysis information."
+
+  utter_affirm:
+    - text: "Great! Let's proceed."
+    - text: "Excellent. We'll continue."
+
+  utter_deny:
+    - text: "No problem, we can stop or try something else."
+    - text: "I understand. What would you like to do instead?"
+
+  utter_ask_user_id:
+    - text: "Could you provide the user ID for the risk analysis?"
+    - text: "Which user would you like to analyze? Please provide the ID."
+
+  utter_ask_date_range:
+    - text: "What time period would you like to analyze? (e.g., last 30 days, last quarter, etc.)"
+    - text: "For which period would you like to see the risk data?"
+
+  utter_default:
+    - text: "I'm sorry, I didn't understand that. I'm specialized in credit risk analysis. Could you rephrase or ask about risk metrics, model performance, or user risk analysis?"
+
+  utter_iamabot:
+    - text: "I am an AI assistant specialized in credit risk analysis and model management."
+
+actions:
+  - action_analyze_user_risk
+  - action_get_model_performance
+  - action_explain_risk_score
+  - action_adjust_model_parameters
+  - action_get_feature_importance
+  - action_explain_model_decision
+  - action_get_approval_rate
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true 

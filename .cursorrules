@@ -1,0 +1,118 @@
+# Credit Risk AI Assistant Project Rules
+
+## Project Structure
+@Files
+- frontend/src/pages/*.js
+- frontend/src/App.js
+- backend/python/main.py
+- backend/python/services/*.py
+- backend/python/models.py
+- backend/python/config.py
+- backend/python/database.py
+
+## General Guidelines
+
+### Python Backend
+- Follow PEP 8 style guide for all Python code
+- Use type hints for function parameters and return values
+- Include comprehensive docstrings for all functions and classes
+- Implement proper error handling with specific error messages
+- Use FastAPI's dependency injection system for database sessions
+- Follow RESTful API design principles
+- Implement proper input validation using Pydantic models
+- Use async/await for I/O operations
+- Implement proper logging with appropriate log levels
+
+### Frontend (React)
+- Follow React best practices and hooks guidelines
+- Use functional components with hooks
+- Implement proper error boundaries
+- Use Material-UI components consistently
+- Follow responsive design principles
+- Implement proper loading states
+- Use proper TypeScript types when applicable
+- Follow React Router best practices
+- Implement proper form validation
+
+### Database
+- Use SQLAlchemy ORM for all database operations
+- Implement proper database migrations
+- Use parameterized queries to prevent SQL injection
+- Follow database normalization principles
+- Implement proper indexing strategies
+- Use appropriate data types for columns
+
+## Code Generation Rules
+
+### API Endpoints
+- Include proper request/response validation
+- Implement proper error handling
+- Include rate limiting where appropriate
+- Use proper HTTP status codes
+- Include API documentation using FastAPI's built-in support
+
+### Data Models
+- Use Pydantic models for data validation
+- Include proper field types and constraints
+- Implement proper serialization/deserialization
+- Include proper validation rules
+
+### Services
+- Implement proper separation of concerns
+- Use dependency injection
+- Include proper error handling
+- Implement proper logging
+- Use async/await for I/O operations
+
+### Frontend Components
+- Use proper component composition
+- Implement proper state management
+- Use proper prop types
+- Include proper error handling
+- Implement proper loading states
+- Use proper form validation
+
+## Testing Guidelines
+- Write unit tests for all business logic
+- Include integration tests for API endpoints
+- Implement proper test fixtures and mocks
+- Use proper test naming conventions
+- Include proper test documentation
+
+## Security Guidelines
+- Implement proper authentication/authorization
+- Use proper password hashing
+- Implement proper session management
+- Use proper CORS configuration
+- Implement proper rate limiting
+- Use proper input validation
+- Implement proper error handling
+
+## Performance Guidelines
+- Implement proper caching strategies
+- Use proper database indexing
+- Implement proper pagination
+- Use proper lazy loading
+- Implement proper code splitting
+- Use proper bundle optimization
+
+## Documentation Guidelines
+- Include proper API documentation
+- Include proper code documentation
+- Include proper setup instructions
+- Include proper deployment instructions
+- Include proper troubleshooting guides
+
+## Version Control Guidelines
+- Use proper commit messages
+- Follow proper branching strategy
+- Include proper PR descriptions
+- Include proper code review guidelines
+- Use proper version tagging
+
+## Deployment Guidelines
+- Use proper Docker configuration
+- Implement proper CI/CD pipeline
+- Use proper environment variables
+- Implement proper monitoring
+- Use proper logging strategy 

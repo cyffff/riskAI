@@ -1,0 +1,5 @@
+{
+  "/api/model/cutoff": "/model_cutoffs/1",
+  "/api/model/metrics": "/model_metrics",
+  "/api/features": "/features"
+} 

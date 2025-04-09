@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    .result {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>API Test Page</h1>
+  <div class="container">
+    <div class="card">
+      <h2>Features API</h2>
+      <button onclick="testFeaturesApi()">Test GET /features</button>
+      <div id="featuresResult" class="result">
+        <pre>Click the button to test the API</pre>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>SQL Sets API</h2>
+      <button onclick="testSqlSetsApi()">Test GET /sql/sets</button>
+      <div id="sqlSetsResult" class="result">
+        <pre>Click the button to test the API</pre>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>SQL Statements API</h2>
+      <button onclick="testSqlStatementsApi()">Test GET /sql/statements</button>
+      <div id="sqlStatementsResult" class="result">
+        <pre>Click the button to test the API</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE_URL = 'http://localhost:8000/api/v1';
+    
+    async function testFeaturesApi() {
+      const resultElement = document.getElementById('featuresResult');
+      resultElement.innerHTML = '<pre>Loading...</pre>';
+      
+      try {
+        const response = await axios.get(`${API_BASE_URL}/features`);
+        resultElement.innerHTML = `<pre>${JSON.stringify(response.data, null, 2)}</pre>`;
+      } catch (error) {
+        resultElement.innerHTML = `<pre class="error">Error: ${error.message}
+${error.response ? JSON.stringify(error.response.data, null, 2) : ''}</pre>`;
+      }
+    }
+    
+    async function testSqlSetsApi() {
+      const resultElement = document.getElementById('sqlSetsResult');
+      resultElement.innerHTML = '<pre>Loading...</pre>';
+      
+      try {
+        const response = await axios.get(`${API_BASE_URL}/sql/sets`);
+        resultElement.innerHTML = `<pre>${JSON.stringify(response.data, null, 2)}</pre>`;
+      } catch (error) {
+        resultElement.innerHTML = `<pre class="error">Error: ${error.message}
+${error.response ? JSON.stringify(error.response.data, null, 2) : ''}</pre>`;
+      }
+    }
+    
+    async function testSqlStatementsApi() {
+      const resultElement = document.getElementById('sqlStatementsResult');
+      resultElement.innerHTML = '<pre>Loading...</pre>';
+      
+      try {
+        const response = await axios.get(`${API_BASE_URL}/sql/statements`);
+        resultElement.innerHTML = `<pre>${JSON.stringify(response.data, null, 2)}</pre>`;
+      } catch (error) {
+        resultElement.innerHTML = `<pre class="error">Error: ${error.message}
+${error.response ? JSON.stringify(error.response.data, null, 2) : ''}</pre>`;
+      }
+    }
+  </script>
+</body>
+</html> 

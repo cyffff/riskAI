@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend-python
+    networks:
+      - riskai_network
+    restart: unless-stopped
+
+  backend-python:
+    build: ./backend/python
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=risk_user
+      - DB_PASSWORD=risk_password
+      - DB_NAME=risk_ai
+      - FEATURE_API_URL=http://feature-system-api:8080
+      - FEATURE_API_KEY=dev_api_key_1234
+      - APP_ENV=development
+      - DEBUG=true
+      - RASA_SERVER_URL=http://rasa:5005
+    depends_on:
+      - db
+      - feature-system-api
+      - rasa
+    volumes:
+      - ./backend/python:/app
+    networks:
+      - riskai_network
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=risk_password
+      - MYSQL_DATABASE=risk_ai
+      - MYSQL_USER=risk_user
+      - MYSQL_PASSWORD=risk_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - riskai_network
+    restart: unless-stopped
+
+  # Mock feature system API using json-server
+  feature-system-api:
+    image: node:16-alpine
+    working_dir: /app
+    volumes:
+      - ./mock-feature-api:/app
+    command: >
+      sh -c "npm install -g json-server && 
+             echo '{\"model_cutoffs\": [{\"id\": 1, \"value\": 0.7}], \"model_metrics\": [{\"id\": 1, \"evaluation_date\": \"2023-01-01\", \"value\": 0.82}], \"features\": [{\"id\": 1, \"name\": \"payment_history\", \"weight\": 0.3}, {\"id\": 2, \"name\": \"credit_utilization\", \"weight\": 0.25}]}' > /app/db.json && 
+             json-server --watch /app/db.json --host 0.0.0.0 --port 8080 --routes /app/routes.json"
+    ports:
+      - "8080:8080"
+    networks:
+      - riskai_network
+    restart: unless-stopped
+
+  # Rasa conversational AI server
+  rasa:
+    image: rasa/rasa:2.8.15
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./rasa_bot:/app
+    command: >
+      run --enable-api --cors "*" --debug
+    networks:
+      - riskai_network
+    restart: unless-stopped
+    depends_on:
+      - rasa-actions
+
+  # Rasa Action Server for custom actions
+  rasa-actions:
+    build: ./rasa_bot/actions
+    ports:
+      - "5055:5055"
+    volumes:
+      - ./rasa_bot/actions:/app/actions
+    environment:
+      - BACKEND_API_URL=http://backend-python:8000
+    networks:
+      - riskai_network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  riskai_network:
+    driver: bridge 

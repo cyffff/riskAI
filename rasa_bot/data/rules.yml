@@ -1,0 +1,27 @@
+version: "3.1"
+
+rules:
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: Thank user anytime they say thanks
+  steps:
+  - intent: thanks
+  - action: utter_thanks
+
+- rule: Respond to affirmation
+  steps:
+  - intent: affirm
+  - action: utter_affirm
+
+- rule: Respond to denial
+  steps:
+  - intent: deny
+  - action: utter_deny 
